@@ -1,3 +1,6 @@
+
+document.getElementById('errors').style.display = 'none';
+
 const SearchBook = () => {
     const SearchFild = document.getElementById('search-field');
    const  searchText = SearchFild.value ;
@@ -5,6 +8,7 @@ const SearchBook = () => {
 
 //    clear data 
    SearchFild.value = '';
+   document.getElementById('errors').style.display = 'none';
 
 //    load data 
    const url = ` http://openlibrary.org/search.json?q=${searchText}`
@@ -15,42 +19,72 @@ fetch(url)
 .then(data =>  displaySearchResult(data.docs))
 
 
+// error handeling ---------------->
+.then(data => {
+   
+   if(data.notfound === 404){
+       errorDiv.innerText = 'No Results Found';
+      
+
+   }
+   else{
+    errorDiv.innerText = '' ;   
+    }
+})
+
+
+.catch(error => DisplayError(error));
+
+
+
 }
 
+const DisplayError = error => {
+    document.getElementById('errors').style.display = 'block';
+}
 
-document.getElementById('error-massage').style.display = 'none';
+// error massage--------->
+
+const searchInput = document.getElementById('search-field');
+const searchBtn = document.getElementById('button-search');
+const errorDiv = document.getElementById('errors');
+searchBtn.addEventListener('click' , function () {
+    const search = searchInput.value;
+    if(search == ''){
+        errorDiv.innerText = 'No Results';
+        return;
+    }
+    
+  
+
+})
+
+
+
+// document.getElementById('error-massage').style.display = 'none';
 
 const displaySearchResult = docs => {
 console.log(docs.length)
+console.log(docs)
     const searchResult = document.getElementById('search-Result');
     const searchNumber = document.getElementById('searchNumber');
     searchNumber.innerText = `Total Results: ${docs.length}`
-    // error massage 
-const errorMassage = document.getElementById('error-massage').style.display = 'block';
-errorMassage.innerText = '';
-    
-    if( docs.length == 0){
-      errorMassage.innerText = 'Now result'
-       
-    }
-    else{
-        errorMassage.style.display = 'block';
-    }
 
+
+ 
 
 
     searchResult.textContent = '';
+   
+   
 
-// const totalSearch = docs.lenght + searchResult
-// console.log(totalSearch)
-  
 
 // loop ----------->
     docs.forEach(doc => {
         // console.log(doc);
         const div = document.createElement('div')
    
-
+    
         div.classList.add('col');
         div.innerHTML = `
 <div class="border border-3  container position-relative ">
