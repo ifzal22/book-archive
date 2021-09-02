@@ -1,7 +1,7 @@
 const SearchBook = () => {
     const SearchFild = document.getElementById('search-field');
    const  searchText = SearchFild.value ;
-   console.log(searchText);
+//    console.log(searchText);
 
 //    clear data 
    SearchFild.value = '';
@@ -19,26 +19,38 @@ fetch(url)
 
 
 document.getElementById('error-massage').style.display = 'none';
-const displaySearchResult = docs => {
 
+const displaySearchResult = docs => {
+console.log(docs.length)
     const searchResult = document.getElementById('search-Result');
-    document.getElementById('error-massage').style.display = 'none';
+    const searchNumber = document.getElementById('searchNumber');
+    searchNumber.innerText = `Total Results: ${docs.length}`
+    // error massage 
+const errorMassage = document.getElementById('error-massage').style.display = 'block';
+errorMassage.innerText = '';
+    
+    if( docs.length == 0){
+      errorMassage.innerText = 'Now result'
+       
+    }
+    else{
+        errorMassage.style.display = 'block';
+    }
+
+
 
     searchResult.textContent = '';
 
+// const totalSearch = docs.lenght + searchResult
+// console.log(totalSearch)
   
-  
-    if(docs.lenght == 0){
 
-    }
-    else{
-        document.getElementById('error-massage').style.display = 'block';
-      console.log('no result') 
-    }
-
+// loop ----------->
     docs.forEach(doc => {
-        console.log(doc);
+        // console.log(doc);
         const div = document.createElement('div')
+   
+
         div.classList.add('col');
         div.innerHTML = `
 <div class="border border-3  container position-relative ">
@@ -51,7 +63,10 @@ const displaySearchResult = docs => {
             <p>Publish Date: <span  class="fw-bold" > ${doc.publish_date} </span> </p>
         </div></div>
         `;
+      
 
+
+   
         searchResult.appendChild(div)
     })
 }
