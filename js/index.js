@@ -22,15 +22,18 @@ document.getElementById('error-massage').style.display = 'none';
 const displaySearchResult = docs => {
 
     const searchResult = document.getElementById('search-Result');
+    document.getElementById('error-massage').style.display = 'none';
+
     searchResult.textContent = '';
 
-    // document.getElementById('error-massage').style.display = 'none';
   
-    if(docs.lenght === 0){
+  
+    if(docs.lenght == 0){
 
     }
     else{
         document.getElementById('error-massage').style.display = 'block';
+      console.log('no result') 
     }
 
     docs.forEach(doc => {
